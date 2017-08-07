@@ -2,6 +2,7 @@
 
 import praw
 import time
+import traceback
 
 bot= praw.Reddit(
         user_agent="ghostbot12 v0.1",
@@ -20,9 +21,9 @@ authorlist= open('authorlist.txt', encoding="UTF-8").read().splitlines()
 def check4SPOOP(comment):
     global wordlist
     global authorlist
-    if wordlist in comment.body.lower():
+    if any([w in comment.body.lower() for w in wordlist]):
         return True
-    elif authorlist in comment.author.name:
+    elif any([a in comment.author.name for a in authorlist]):
         return True
     else:
         return False
@@ -34,6 +35,11 @@ for comment in comments:
         # Generate a message
         message = SPOOKE_reply
         print("about to SPOOP ", comment.author.name)
-        comment.reply(message) # Send message
-        print("SPOOKD", comment.author.name, "\n")
+        try:
+            comment.reply(message) # Send message
+            print("SPOOKD", comment.author.name, "\n")
+        except:
+            print("Failed 2 SPOOK!")
+            traceback.print_exc()
+
         time.sleep(60)
