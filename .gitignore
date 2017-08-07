@@ -1,2 +1,5 @@
 # don't send the password to GitHub, lol
 pass.txt
+
+# also don't share the secret with everyone
+secret.txt
