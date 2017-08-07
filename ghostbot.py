@@ -14,15 +14,26 @@ bot= praw.Reddit(
 subreddit= bot.subreddit('me_irl')
 comments= subreddit.stream.comments()
 SPOOKE_reply= open("genericSPOOK.txt", encoding="UTF-8").read()
+wordlist= open('wordlist.txt', encoding="UTF-8").read().splitlines()
+authorlist= open('authorlist.txt', encoding="UTF-8").read().splitlines()
+
+def check4SPOOP(comment):
+    global wordlist
+    global authorlist
+    if wordlist in comment.body.lower():
+        return True
+    elif authorlist in comment.author.name:
+        return True
+    else:
+        return False
 
 for comment in comments:
     text = comment.body # Fetch body
     author = comment.author # Fetch author
-    if 'ghost' in text.lower():
+    if check4SPOOP(comment):
         # Generate a message
         message = SPOOKE_reply
         print("about to SPOOP ", comment.author.name)
-        print("\n")
         comment.reply(message) # Send message
         print("SPOOKD", comment.author.name, "\n")
         time.sleep(60)
