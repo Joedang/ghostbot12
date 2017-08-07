@@ -35,6 +35,12 @@ for comment in comments:
         # Generate a message
         message = SPOOKE_reply
         print("about to SPOOP ", comment.author.name)
+        t= time.localtime()
+        print(
+                t.tm_year, t.tm_mon, t.tm_mday, 
+                t.tm_hour, t.tm_min, t.tm_sec, t.tm_zone
+                )
+        print(comment.link_permalink)
         try:
             comment.reply(message) # Send message
             print("SPOOKD", comment.author.name, "\n")
@@ -42,4 +48,4 @@ for comment in comments:
             print("Failed 2 SPOOK!")
             traceback.print_exc()
 
-        time.sleep(60)
+        time.sleep(30)
