@@ -24,9 +24,10 @@ def check4SPOOP(comment):
             return True
         elif any([a in comment.author.name for a in authorlist]):
             return True
-        elif randrange(0,99)==69:
+        elif random.randint(0,99)==69:
             return True
         else:
+            print(".", end='')
             return False
     except:
         print("I got SPOOKD while looking at a comment.")
@@ -38,11 +39,13 @@ def spookstream(subname):
     for comment in comments:
         if check4SPOOP(comment):
             message = SPOOKE_reply
-            print("about to SPOOP ", comment.author.name)
+            print("\nabout to SPOOP ", comment.author.name)
             t= time.localtime()
             print(
-                    t.tm_year, t.tm_mon, t.tm_mday, 
-                    t.tm_hour, t.tm_min, t.tm_sec, t.tm_zone
+                    t.tm_year,"-",t.tm_mon,"-",t.tm_mday,"_",
+                    t.tm_hour,":",t.tm_min,":",t.tm_sec,
+                    t.tm_zone,
+                    sep=''
                     )
             print(comment.link_permalink)
             try:

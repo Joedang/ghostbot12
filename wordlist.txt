@@ -9,3 +9,6 @@ d e d
 beep
 boop
 waterguy12
+bad bot
+good bot
+neutral bot
