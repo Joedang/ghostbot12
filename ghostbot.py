@@ -3,6 +3,8 @@
 import praw
 import time
 import traceback
+from multiprocessing import Pool
+import random
 
 bot= praw.Reddit(
         user_agent="ghostbot12 v0.1",
@@ -12,8 +14,6 @@ bot= praw.Reddit(
         password= open("pass.txt").read().replace("\n", "")
         )
 
-subreddit= bot.subreddit('me_irl')
-comments= subreddit.stream.comments()
 SPOOKE_reply= open("genericSPOOK.txt", encoding="UTF-8").read()
 
 def check4SPOOP(comment):
@@ -24,28 +24,38 @@ def check4SPOOP(comment):
             return True
         elif any([a in comment.author.name for a in authorlist]):
             return True
+        elif randrange(0,99)==69:
+            return True
         else:
             return False
     except:
         print("I got SPOOKD while looking at a comment.")
         traceback.print_exc()
 
-for comment in comments:
-    if check4SPOOP(comment):
-        message = SPOOKE_reply
-        print("about to SPOOP ", comment.author.name)
-        t= time.localtime()
-        print(
-                t.tm_year, t.tm_mon, t.tm_mday, 
-                t.tm_hour, t.tm_min, t.tm_sec, t.tm_zone
-                )
-        print(comment.link_permalink)
-        try:
-            comment.reply(message) # Send message
-            print("SPOOKD", comment.author.name, "\n")
-        except:
-            print("Failed 2 SPOOK!")
-            traceback.print_exc()
+def spookstream(subname):
+    subreddit= bot.subreddit(subname)
+    comments= subreddit.stream.comments()
+    for comment in comments:
+        if check4SPOOP(comment):
+            message = SPOOKE_reply
+            print("about to SPOOP ", comment.author.name)
+            t= time.localtime()
+            print(
+                    t.tm_year, t.tm_mon, t.tm_mday, 
+                    t.tm_hour, t.tm_min, t.tm_sec, t.tm_zone
+                    )
+            print(comment.link_permalink)
+            try:
+                comment.reply(message) # Send message
+                print("SPOOKD", comment.author.name, "\n")
+            except:
+                print("Failed 2 SPOOK!")
+                traceback.print_exc()
 
-        wait= float(open("wait.txt").read())
-        time.sleep(wait)
+            wait= float(open("wait.txt").read())
+            time.sleep(wait)
+
+
+#pool= Pool()
+#pool.apply_async(spookstream, 'me_irl')
+spookstream('me_irl')
