@@ -3,7 +3,7 @@
 import praw
 import time
 import traceback
-from multiprocessing import Pool
+from multiprocessing import Process
 import random
 
 bot= praw.Reddit(
@@ -34,6 +34,7 @@ def check4SPOOP(comment):
         traceback.print_exc()
 
 def spookstream(subname):
+    print("spooping through", subname)
     subreddit= bot.subreddit(subname)
     comments= subreddit.stream.comments()
     for comment in comments:
@@ -47,10 +48,11 @@ def spookstream(subname):
                     t.tm_zone,
                     sep=''
                     )
-            print(comment.link_permalink)
+            print("reddit.com",comment.permalink(), sep='')
             try:
-                comment.reply(message) # Send message
-                print("SPOOKD", comment.author.name, "\n")
+                # comment.reply(message) # Send message
+                # print("SPOOKD", comment.author.name, "\n")
+                print("Just kidding, I can no longer SPOOP\n")
             except:
                 print("Failed 2 SPOOK!")
                 traceback.print_exc()
@@ -58,7 +60,14 @@ def spookstream(subname):
             wait= float(open("wait.txt").read())
             time.sleep(wait)
 
-
-#pool= Pool()
-#pool.apply_async(spookstream, 'me_irl')
-spookstream('me_irl')
+subnames= ["me_irl", "waterguy12"]
+print("building process list")
+ps=  []
+for s in subnames:
+    ps.extend([Process(target=spookstream, args=[s])])
+    print("s=", s) 
+print("starting spoop processes")
+[p.start() for p in ps]
+print("joining spoop processes")
+[p.join() for p in ps]
+print("DONE!")

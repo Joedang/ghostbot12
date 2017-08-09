@@ -1,7 +1,10 @@
 ghostguy12
-botguy12
-waterbot12
+#botguy12
+#waterbot12
 vampireguy12
 werewolfguy12
 henchmen-of-the-fire
-waterguybot12
+#waterguybot12
+reichtangly
+grimreaperguy12
+WaterGuy12
